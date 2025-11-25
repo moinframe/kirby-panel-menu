@@ -1,0 +1,53 @@
+{
+    "name": "moinframe/kirby-panel-menu",
+    "description": "A fluent, chainable PHP class for managing Kirby CMS panel menu entries.",
+    "version": "0.0.0",
+    "type": "kirby-plugin",
+    "license": "MIT",
+    "keywords": [
+        "kirby",
+        "panel",
+        "menu",
+        "kirby-plugin",
+        "kirby4",
+        "kirby5"
+    ],
+    "authors": [
+        {
+            "name": "Justus Kraft",
+            "email": "justus@moinfra.me",
+            "homepage": "https://moinfra.me"
+        }
+    ],
+    "support": {
+        "docs": "https://moinfra.me/docs/moinframe-panel-menu",
+        "source": "https://github.com/moinframe/kirby-panel-menu",
+        "issues": "https://github.com/moinframe/kirby-panel-menu/issues"
+    },
+    "require": {
+        "php": ">=8.0.0",
+        "getkirby/composer-installer": "^1.1"
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse"
+    },
+    "autoload": {
+        "psr-4": {
+            "Moinframe\\PanelMenu\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "getkirby/composer-installer": true
+        }
+    },
+    "extra": {
+        "installer-name": "panel-menu"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpstan/phpstan-deprecation-rules": "^2.0"
+    }
+}

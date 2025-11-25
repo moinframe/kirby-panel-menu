@@ -1,0 +1,17 @@
+{
+  "name": "moinframe-panel-menu",
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "release": "release-it"
+  },
+  "keywords": [],
+  "author": "Justus Kraft <justus@moinfra.me>",
+  "license": "MIT",
+  "devDependencies": {
+    "@release-it/bumper": "^7.0.5",
+    "@release-it/conventional-changelog": "^10.0.2",
+    "release-it": "^19.0.6"
+  }
+}
