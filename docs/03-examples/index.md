@@ -3,9 +3,9 @@ title: Examples
 description: Real-world examples for common use cases
 ---
 
-## Content Management Setup
+## Typical Setup
 
-A typical setup with multiple content sections, quick-create buttons, and proper active state handling:
+A typical setup with multiple pages and a quick-create button:
 
 ```php
 return [
@@ -14,35 +14,22 @@ return [
             $menu = panelMenu($kirby);
 
             $menu->site([
-                'label' => 'Dashboard',
-                'current' => $menu->currentExcluding('site', [
-                    'pages/notes',
-                    'pages/blog',
-                    'pages/projects'
-                ])
+                'label' => 'Dashboard'
             ]);
 
             $menu->separator();
 
             $menu->page('Notes', 'notes', [
-                'icon' => 'pen',
-                'current' => $menu->currentCallback('pages/notes')
-            ]);
-
-            $menu->page('Blog', 'blog', [
-                'icon' => 'book',
-                'current' => $menu->currentCallback('pages/blog')
+                'icon' => 'pen'
             ]);
 
             $menu->page('Projects', 'projects', [
-                'icon' => 'briefcase',
-                'current' => $menu->currentCallback('pages/projects')
+                'icon' => 'briefcase'
             ]);
 
             $menu->separator();
 
             $menu->createPage('new-note', 'New Note', 'notes', 'site', 'notes');
-            $menu->createPage('new-post', 'New Post', 'blog', 'site', 'articles');
 
             $menu->separator();
 
