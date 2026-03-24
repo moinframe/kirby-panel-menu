@@ -78,8 +78,3 @@ return panelMenu($kirby)
     ->area('system')
     ->toArray();
 ```
-
-## Requirements
-
-- Kirby CMS 3.6+
-- PHP 8.0+
