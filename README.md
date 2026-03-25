@@ -40,7 +40,7 @@ return [
 
 ## Documentation
 
-Full documentation is available at [moinfra.me/docs](https://moinfra.me/docs/moinframe-kirby-panel-menu).
+Full documentation is available at [moinfra.me/docs](https://moinfra.me/docs/moinframe-panel-menu).
 
 ## Requirements
 
