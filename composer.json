@@ -19,6 +19,7 @@
             "homepage": "https://moinfra.me"
         }
     ],
+    "homepage": "https://github.com/moinframe/kirby-panel-menu",
     "support": {
         "docs": "https://moinfra.me/docs/moinframe-panel-menu",
         "source": "https://github.com/moinframe/kirby-panel-menu",
