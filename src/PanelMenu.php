@@ -274,13 +274,6 @@ class PanelMenu
 			return $input;
 		}
 
-		// Check if it's a UUID reference (page://uuid)
-		if (Str::startsWith($input, 'page://')) {
-			$uuid = Str::after($input, 'page://');
-			return $this->kirby->page($uuid);
-		}
-
-		// Try to find by page path
 		return $this->kirby->page($input);
 	}
 
