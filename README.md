@@ -44,7 +44,7 @@ Full documentation is available at [moinfra.me/docs](https://moinfra.me/docs/moi
 
 ## Requirements
 
-- Kirby CMS 3.6+
+- Kirby CMS 4 / 5
 - PHP 8.0+
 
 ## License
