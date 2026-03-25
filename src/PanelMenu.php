@@ -250,7 +250,7 @@ class PanelMenu
 			throw new \InvalidArgumentException("Parent page not found: {$parentPage}");
 		}
 
-		$parentId = $pageObject->id();
+		$parentId = str_replace('/', '+', $pageObject->id());
 		$dialog = "pages/create?parent=/pages/{$parentId}&view={$view}&section={$section}";
 
 		return $this->dialog($key, $label, $dialog, array_merge([
