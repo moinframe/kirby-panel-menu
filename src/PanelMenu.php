@@ -53,14 +53,15 @@ class PanelMenu
 			throw new \InvalidArgumentException('Page not found: ' . (string)$page);
 		}
 
-		$link = 'pages/' . $pageObject->id();
+		$link = $pageObject->panel()->path();
+		$kirby = $this->kirby;
 
 		$this->entries[$link] = array_merge([
 			'label' => $label,
 			'link' => $link,
 			'icon' => $options['icon'] ?? 'page',
-			'current' => function (string $current) use ($link): bool {
-				return Str::contains(App::instance()->path(), $link);
+			'current' => function (string $current) use ($link, $kirby): bool {
+				return Str::contains($kirby->path(), $link);
 			},
 		], $this->filterOptions($options, ['target', 'title', 'current']));
 
