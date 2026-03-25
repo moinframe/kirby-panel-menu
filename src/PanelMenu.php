@@ -100,7 +100,7 @@ class PanelMenu
 		if (count($options) === 0) {
 			$this->entries[] = $area;
 		} else {
-			$this->entries[] = $options;
+			$this->entries[$area] = $options;
 		}
 
 		return $this;
