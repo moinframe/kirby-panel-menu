@@ -60,7 +60,7 @@ class PanelMenu
 			'label' => $label,
 			'link' => $link,
 			'icon' => $options['icon'] ?? 'page',
-			'current' => function (string $current) use ($link, $kirby): bool {
+			'current' => function (?string $current) use ($link, $kirby): bool {
 				return Str::contains($kirby->path(), $link);
 			},
 		], $this->filterOptions($options, ['target', 'title', 'current']));
@@ -217,7 +217,7 @@ class PanelMenu
 	 */
 	public function currentExcluding(string $baseMatch, array $excludePaths): Closure
 	{
-		return function (string $current) use ($baseMatch, $excludePaths): bool {
+		return function (?string $current) use ($baseMatch, $excludePaths): bool {
 			$currentPath = $this->kirby->path();
 
 			return $current === $baseMatch &&
@@ -313,7 +313,7 @@ class PanelMenu
 
 			if (!empty($pageLinks)) {
 				$kirby = $this->kirby;
-				$entries['site']['current'] = function (string $current) use ($pageLinks, $kirby): bool {
+				$entries['site']['current'] = function (?string $current) use ($pageLinks, $kirby): bool {
 					$path = $kirby->path();
 					return $current === 'site' &&
 						A::every($pageLinks, fn($link) => !Str::contains($path, $link));
