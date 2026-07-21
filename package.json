@@ -10,8 +10,8 @@
   "author": "Justus Kraft <justus@moinfra.me>",
   "license": "MIT",
   "devDependencies": {
-    "@release-it/bumper": "^7.0.5",
-    "@release-it/conventional-changelog": "^10.0.2",
-    "release-it": "^19.0.6"
+    "@release-it/bumper": "^7.0.6",
+    "@release-it/conventional-changelog": "^11.0.1",
+    "release-it": "^20.2.1"
   }
 }
