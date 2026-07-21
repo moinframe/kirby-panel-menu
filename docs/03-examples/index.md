@@ -75,6 +75,36 @@ return [
 ];
 ```
 
+## Dynamic Menu Items
+
+Turn your sidebar into a dynamic menu based on the main menu structure. Thanks [](https://github.com/JoaoMartino) for the idea!
+```php
+return [
+    'panel' => [
+        'menu' => function ($kirby) {
+
+            $menu = panelMenu($kirby)
+              ->site()
+              ->area('users')
+              ->area('system')
+              ->separator();
+
+            foreach ($kirby->site()->children()->listed() as $page) {
+
+                $icon = $page->id() === 'home' ? 'book' : 'page';
+
+                $menu->page(
+                    $page->title()->value(),
+                    $page,
+                    ['icon' => $icon]
+                );
+            }
+        return $menu->toArray();
+        }
+    ]
+];
+```
+
 ## Dialogs and Drawers
 
 Combine page links with custom dialogs and drawers:
