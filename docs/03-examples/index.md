@@ -77,7 +77,7 @@ return [
 
 ## Dynamic Menu Items
 
-Turn your sidebar into a dynamic menu based on the main menu structure. Thanks [](https://github.com/JoaoMartino) for the idea!
+Turn your sidebar into a dynamic menu based on the main menu structure. Thanks [João Martino](https://github.com/JoaoMartino) for the idea!
 ```php
 return [
     'panel' => [
