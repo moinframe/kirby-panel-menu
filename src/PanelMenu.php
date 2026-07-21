@@ -71,13 +71,15 @@ class PanelMenu
 	/**
 	 * Create a menu entry for the site
 	 *
+	 * The label is intentionally omitted so Kirby falls back to the title
+	 * defined in the site blueprint. Pass a 'label' option to override it.
+	 *
 	 * @param array<string, mixed> $options Options to customize the site entry
 	 * @return self
 	 */
 	public function site(array $options = []): self
 	{
 		$defaults = [
-			'label' => 'Site',
 			'icon' => 'home',
 			'link' => 'site',
 		];
