@@ -61,7 +61,7 @@ class PanelMenu
 			'link' => $link,
 			'icon' => $options['icon'] ?? 'page',
 			'current' => function (?string $current) use ($link, $kirby): bool {
-				return Str::contains($kirby->path(), $link);
+				return static::pathMatches($kirby->path(), $link);
 			},
 		], $this->filterOptions($options, ['target', 'title', 'current']));
 
@@ -200,7 +200,7 @@ class PanelMenu
 			$currentPath = $this->kirby->path();
 
 			foreach ($paths as $path) {
-				if (Str::contains($currentPath, $path)) {
+				if (static::pathMatches($currentPath, $path)) {
 					return true;
 				}
 			}
@@ -223,7 +223,7 @@ class PanelMenu
 			$currentPath = $this->kirby->path();
 
 			return $current === $baseMatch &&
-				A::every($excludePaths, fn($link) => !Str::contains($currentPath, $link));
+				A::every($excludePaths, fn($link) => !static::pathMatches($currentPath, $link));
 		};
 	}
 
@@ -281,6 +281,28 @@ class PanelMenu
 	}
 
 	/**
+	 * Check whether a panel path points to the given link or one of its children
+	 *
+	 * Matches whole path segments only, so `pages/film` matches
+	 * `panel/pages/film` and `panel/pages/film+trailer`, but not
+	 * `panel/pages/filmreihe`.
+	 *
+	 * @param string $path The current request path
+	 * @param string $link The menu entry link
+	 * @return bool
+	 */
+	protected static function pathMatches(string $path, string $link): bool
+	{
+		$link = trim($link, '/');
+
+		if ($link === '') {
+			return false;
+		}
+
+		return preg_match('#(^|/)' . preg_quote($link, '#') . '($|[/+?])#', $path) === 1;
+	}
+
+	/**
 	 * Filter allowed options from an options array
 	 *
 	 * @param array<string, mixed> $options The options array
@@ -318,7 +340,7 @@ class PanelMenu
 				$entries['site']['current'] = function (?string $current) use ($pageLinks, $kirby): bool {
 					$path = $kirby->path();
 					return $current === 'site' &&
-						A::every($pageLinks, fn($link) => !Str::contains($path, $link));
+						A::every($pageLinks, fn($link) => !static::pathMatches($path, $link));
 				};
 			}
 		}
