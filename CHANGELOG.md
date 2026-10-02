@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/moinframe/kirby-panel-menu/compare/v1.0.3...v1.0.4) (2026-10-02)
+
+### Bug Fixes
+
+* match whole path segments ([b0b5b5d](https://github.com/moinframe/kirby-panel-menu/commit/b0b5b5d150785a98538f2f680a12dee61c82113a))
+* use closest matching instead ([c80d030](https://github.com/moinframe/kirby-panel-menu/commit/c80d0306a224b1967218da2d709b7ee3e75d6586))
+
 ## [1.0.3](https://github.com/moinframe/kirby-panel-menu/compare/v1.0.2...v1.0.3) (2026-07-21)
 
 ## [1.0.2](https://github.com/moinframe/kirby-panel-menu/compare/v1.0.1...v1.0.2) (2026-07-21)
