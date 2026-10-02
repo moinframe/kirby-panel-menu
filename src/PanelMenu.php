@@ -54,15 +54,13 @@ class PanelMenu
 		}
 
 		$link = $pageObject->panel()->path();
-		$kirby = $this->kirby;
 
+		// Without a custom 'current' option, the callback is generated
+		// in toArray() once all page entries are known
 		$this->entries[$link] = array_merge([
 			'label' => $label,
 			'link' => $link,
 			'icon' => $options['icon'] ?? 'page',
-			'current' => function (?string $current) use ($link, $kirby): bool {
-				return Str::contains($kirby->path(), $link);
-			},
 		], $this->filterOptions($options, ['target', 'title', 'current']));
 
 		return $this;
@@ -200,7 +198,7 @@ class PanelMenu
 			$currentPath = $this->kirby->path();
 
 			foreach ($paths as $path) {
-				if (Str::contains($currentPath, $path)) {
+				if (static::pathMatches($currentPath, $path)) {
 					return true;
 				}
 			}
@@ -223,7 +221,7 @@ class PanelMenu
 			$currentPath = $this->kirby->path();
 
 			return $current === $baseMatch &&
-				A::every($excludePaths, fn($link) => !Str::contains($currentPath, $link));
+				A::every($excludePaths, fn($link) => !static::pathMatches($currentPath, $link));
 		};
 	}
 
@@ -281,6 +279,54 @@ class PanelMenu
 	}
 
 	/**
+	 * Check whether a panel path points to the given link or one of its children
+	 *
+	 * Matches whole path segments only, so `pages/film` matches
+	 * `panel/pages/film` and `panel/pages/film+trailer`, but not
+	 * `panel/pages/filmreihe`.
+	 *
+	 * @param string $path The current request path
+	 * @param string $link The menu entry link
+	 * @return bool
+	 */
+	protected static function pathMatches(string $path, string $link): bool
+	{
+		$link = trim($link, '/');
+
+		if ($link === '') {
+			return false;
+		}
+
+		return preg_match('#(^|/)' . preg_quote($link, '#') . '($|[/+?])#', $path) === 1;
+	}
+
+	/**
+	 * Find the most specific link that matches the given path
+	 *
+	 * For `panel/pages/photography+sky` and the links `pages/photography`
+	 * and `pages/photography+sky`, the latter wins.
+	 *
+	 * @param string $path The current request path
+	 * @param array<string> $links The links to check
+	 * @return string|null
+	 */
+	protected static function closestMatch(string $path, array $links): ?string
+	{
+		$closest = null;
+
+		foreach ($links as $link) {
+			if (
+				static::pathMatches($path, $link) &&
+				strlen($link) > strlen($closest ?? '')
+			) {
+				$closest = $link;
+			}
+		}
+
+		return $closest;
+	}
+
+	/**
 	 * Filter allowed options from an options array
 	 *
 	 * @param array<string, mixed> $options The options array
@@ -305,20 +351,32 @@ class PanelMenu
 	public function toArray(): array
 	{
 		$entries = $this->entries;
+		$kirby = $this->kirby;
+
+		$pageLinks = array_values(array_filter(
+			array_keys($entries),
+			fn($key) => is_string($key) && Str::startsWith($key, 'pages/')
+		));
+
+		// Auto-generate current callbacks for page entries. When nested pages
+		// are in the menu, only the most specific matching entry is active.
+		foreach ($pageLinks as $link) {
+			if (isset($entries[$link]['current'])) {
+				continue;
+			}
+
+			$entries[$link]['current'] = function (?string $current) use ($link, $pageLinks, $kirby): bool {
+				return static::closestMatch($kirby->path(), $pageLinks) === $link;
+			};
+		}
 
 		// Auto-generate current callback for site entry when page entries exist
 		if (isset($entries['site']) && !isset($entries['site']['current'])) {
-			$pageLinks = array_values(array_filter(
-				array_keys($entries),
-				fn($key) => Str::startsWith($key, 'pages/')
-			));
-
 			if (!empty($pageLinks)) {
-				$kirby = $this->kirby;
 				$entries['site']['current'] = function (?string $current) use ($pageLinks, $kirby): bool {
 					$path = $kirby->path();
 					return $current === 'site' &&
-						A::every($pageLinks, fn($link) => !Str::contains($path, $link));
+						A::every($pageLinks, fn($link) => !static::pathMatches($path, $link));
 				};
 			}
 		}
