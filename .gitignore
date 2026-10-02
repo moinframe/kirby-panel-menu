@@ -8,6 +8,9 @@
 /vendor
 /kirby
 
+# Generated test environments (see .kirbyenv.php)
+/.kirbyenv
+
 # files of Composer dependencies that are not needed for the plugin
 /vendor/**/.*
 /vendor/**/*.json
