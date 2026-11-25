@@ -40,6 +40,8 @@ $menu->dialog('new-note', 'New Note',
 );
 ```
 
+In Kirby 6, pass the name of the `pagelist` field as `$section`. Blueprints that still use `sections:` work too, since Kirby 6 turns each section into a field with the same name. The entry opens that field's create dialog (`site/fields/notes/create`), and the new page goes to the field's `parent`, so `$parentPage` is only checked to exist.
+
 **Parameters:** `$key`, `$label`, `$parentPage` (page path or UUID), `$view`, `$section`, `$options`
 
 

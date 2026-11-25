@@ -232,7 +232,7 @@ class PanelMenu
 	 * @param string $label The label
 	 * @param string $parentPage The parent page ID or UUID
 	 * @param string $view The view name
-	 * @param string $section The section name
+	 * @param string $section The section name, in Kirby 6 the `pagelist` field name
 	 * @param array<string, mixed> $options Additional options
 	 * @return self
 	 */
@@ -250,8 +250,14 @@ class PanelMenu
 			throw new \InvalidArgumentException("Parent page not found: {$parentPage}");
 		}
 
-		$parentId = str_replace('/', '+', $pageObject->id());
-		$dialog = "pages/create?parent=/pages/{$parentId}&view={$view}&section={$section}";
+		// Kirby 6 turned sections into fields and only resolves them through the
+		// field's own dialog route; the parent then comes from the field's `parent`
+		if (version_compare(App::version() ?? '0', '6.0.0', '>=')) {
+			$dialog = $this->viewPath($view) . "/fields/{$section}/create";
+		} else {
+			$parentId = $pageObject->panel()->id();
+			$dialog = "pages/create?parent=/pages/{$parentId}&view={$view}&section={$section}";
+		}
 
 		return $this->dialog($key, $label, $dialog, array_merge([
 			'icon' => 'add'
@@ -276,6 +282,31 @@ class PanelMenu
 		}
 
 		return $this->kirby->page($input);
+	}
+
+	/**
+	 * Panel path of the model whose blueprint holds the section,
+	 * e.g. `site` or `pages/photography+sky`
+	 *
+	 * @param string $view `site`, a page id, a panel path or a UUID
+	 * @return string
+	 */
+	protected function viewPath(string $view): string
+	{
+		$view = trim($view, '/');
+
+		if ($view === 'site') {
+			return 'site';
+		}
+
+		$id = str_replace('+', '/', preg_replace('#^pages/#', '', $view) ?? $view);
+		$page = $this->resolvePage($id);
+
+		if ($page === null) {
+			throw new \InvalidArgumentException("View page not found: {$view}");
+		}
+
+		return $page->panel()->path();
 	}
 
 	/**
