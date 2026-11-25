@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.0](https://github.com/moinframe/kirby-panel-menu/compare/v1.0.4...v1.1.0) (2026-11-25)
+
+### Bug Fixes
+
+* update to support kirby 6 ([72a0779](https://github.com/moinframe/kirby-panel-menu/commit/72a077902861d46748f288ef3b650411be8fe9f4))
+
 ## [1.0.4](https://github.com/moinframe/kirby-panel-menu/compare/v1.0.3...v1.0.4) (2026-10-02)
 
 ### Bug Fixes
